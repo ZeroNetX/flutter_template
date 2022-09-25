@@ -34,3 +34,8 @@ samples, guidance on mobile development, and a full API reference.
 ```flutter build web --pwa-strategy=none --dart-define=SITE_ADDR=1Mc588z8kuAEDQu8VFetR9vKaxHPyRax4M --dart-define=FLUTTER_WEB_CANVASKIT_URL=/raw/1Mc588z8kuAEDQu8VFetR9vKaxHPyRax4M/canvaskit/ --base-href=/1Mc588z8kuAEDQu8VFetR9vKaxHPyRax4M/```
 
 > Note: In the above build step `1Mc588z8kuAEDQu8VFetR9vKaxHPyRax4M` is example site address, You need to replace that address with your own.
+
+## Compatibility
+
+This code is just for initial loading of App, and does bridge wrapper commands to flutter engine
+If you don't need ZeroFrame API access/ZeroNetX Websocket Access you can clone from this commit.
