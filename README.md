@@ -17,7 +17,6 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Environment
 
-
 `flutter doctor`  output
 ```
 [√] Flutter (Channel stable, 3.3.0, on Microsoft Windows [Version 10.0.22000.1042], locale en-IN)
@@ -29,3 +28,9 @@ samples, guidance on mobile development, and a full API reference.
 [√] Connected device (3 available)
 [√] HTTP Host Availability
 ```
+
+## Build
+
+```flutter build web --pwa-strategy=none --dart-define=SITE_ADDR=1Mc588z8kuAEDQu8VFetR9vKaxHPyRax4M --dart-define=FLUTTER_WEB_CANVASKIT_URL=/raw/1Mc588z8kuAEDQu8VFetR9vKaxHPyRax4M/canvaskit/ --base-href=/1Mc588z8kuAEDQu8VFetR9vKaxHPyRax4M/```
+
+> Note: In the above build step `1Mc588z8kuAEDQu8VFetR9vKaxHPyRax4M` is example site address, You need to replace that address with your own.
