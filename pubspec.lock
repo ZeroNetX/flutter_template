@@ -215,10 +215,10 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: bf92c0e8376fe35643176b56b626e2b06f99c1ba
+      resolved-ref: bcc2d16ebeaf1b2033d531955630779e787ed339
       url: "https://github.com/ZeroNetX/zeronet_ws.git"
     source: git
-    version: "0.0.7"
+    version: "0.0.8"
 sdks:
   dart: ">=2.18.0 <3.0.0"
   flutter: ">=2.10.0"

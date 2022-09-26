@@ -31,11 +31,63 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Build
 
+Except Web Environment you can compile Apps normally, Flutter Web need some patching see below for more info.
+
+## Compatibility
+
+You can access ZeroFrame API access/ZeroNetX Websocket Commands using zeronet_ws package in `pubspec.yaml` file.
+```yaml
+dependencies:
+  zeronet_ws: #^0.0.8 #versioned
+    git: https://github.com/ZeroNetX/zeronet_ws.git #git repo
+```
+
+### Flutter Web
+
+Add below line in your index.html
+
+```html
+<head>
+...
+<script type="text/javascript" src="assets/packages/zeronet_ws/js/ZeroFrame.js"></script>
+</head>
+```
+
+Flutter Web Apps needs monkeyPatching to load files, thus index.html' should load _flutter Engine as below without this your Web App will failed to load.
+```html
+<body>
+  <script>
+    // `frame` variable is accessed by bindings of lib, thus name should not be changed.
+    var frame = new ZeroFrame();
+    frame.monkeyPatchAjax();
+    frame.cmd("siteInfo", [], function () {
+      var script = document.createElement("script");
+      script.src = "main.dart.js";
+      script.type = "text/javascript";
+      document.body.appendChild(script);
+
+      //Uncomment Below for MaterialIcons Support
+      /*
+      script = document.createElement("script");
+      script.src = "assets/fonts/MaterialIcons-Regular.otf";
+      script.type = "application/octet-stream";
+      document.body.appendChild(script);
+      */
+
+      _flutter.loader.loadEntrypoint(null).then(function (engineInitializer) {
+        return engineInitializer.initializeEngine();
+      }).then(function (appRunner) {
+        return appRunner.runApp();
+      });
+    });
+  </script>
+</body>
+```
+
+### Build Web App
+
+
 ```flutter build web --pwa-strategy=none --dart-define=SITE_ADDR=1Mc588z8kuAEDQu8VFetR9vKaxHPyRax4M --dart-define=FLUTTER_WEB_CANVASKIT_URL=/raw/1Mc588z8kuAEDQu8VFetR9vKaxHPyRax4M/canvaskit/ --base-href=/1Mc588z8kuAEDQu8VFetR9vKaxHPyRax4M/```
 
 > Note: In the above build step `1Mc588z8kuAEDQu8VFetR9vKaxHPyRax4M` is example site address, You need to replace that address with your own.
 
-## Compatibility
-
-This code is just for initial loading of App, and does bridge wrapper commands to flutter engine
-If you don't need ZeroFrame API access/ZeroNetX Websocket Access you can clone from this commit.
