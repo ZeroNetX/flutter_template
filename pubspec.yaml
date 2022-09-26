@@ -10,6 +10,8 @@ dependencies:
   flutter:
     sdk: flutter
   font_awesome_flutter: ^10.2.1
+  zeronet_ws:
+    git: https://github.com/ZeroNetX/zeronet_ws.git
 
 dev_dependencies:
   flutter_test:

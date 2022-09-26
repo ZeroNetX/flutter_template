@@ -1,6 +1,21 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+import 'package:zeronet_ws/models/siteinfo.dart';
+import 'package:zeronet_ws/zeronet_ws.dart';
+
+late ZeroNet zeroNet;
+
+const siteAddr = String.fromEnvironment(
+  'SITE_ADDR',
+  defaultValue: '1HELLoE3sFD9569CLCbHEAVqvqV7U2Ri9d',
+);
+
+void main() async {
+  zeroNet = ZeroNet.instance;
+  if (!kIsWeb) {
+    await zeroNet.connect(siteAddr);
+  }
   runApp(const MyApp());
 }
 
@@ -10,11 +25,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Sample ZeroNet Site',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Sample ZeroNet Site'),
     );
   }
 }
@@ -29,12 +44,21 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  String? content;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  void loadSiteInfo() async {
+    final info = (await zeroNet.siteInfoFuture()).siteInfo;
+    content = 'Site Address: ${info.address!}';
+    content = '${content!}\nPeers: ${info.peers}';
+    content =
+        '$content\nModified: ${DateTime.fromMillisecondsSinceEpoch(info.settings!.modified! * 1000)}';
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    loadSiteInfo();
+    super.initState();
   }
 
   @override
@@ -43,24 +67,18 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+            if (content != null)
+              Text(
+                content!,
+                style: Theme.of(context).textTheme.headline6,
+              ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(FontAwesomeIcons.plus),
       ),
     );
   }
