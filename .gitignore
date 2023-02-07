@@ -31,6 +31,9 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+generated_plugin_registrant.*
+generated_plugins.*
+GeneratedPluginRegistrant.*
 
 # Symbolication related
 app.*.symbols
